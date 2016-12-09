@@ -81,6 +81,10 @@
       return udpatedWidth
     },
 
+    getTextValue: function () {
+      return this.element ? this.element.value : null
+    },
+
     attachToElement: function (element) {
       this.element = element
 
