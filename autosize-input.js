@@ -26,6 +26,12 @@
     'white-space:nowrap;'
   ].join('')
 
+  /* eslint-disable */
+  var isBrowser = new Function(
+    'try { return this===window; } catch(e) { return false; }'
+  )
+  /* eslint-enable */
+
   // Create the `ghost` element, with inline styles to hide it and ensure
   // that the text is all on a single line.
   function createGhostElement () {
@@ -37,9 +43,13 @@
   }
 
   var getGhostElement = (function () {
-    var ghost = createGhostElement()
+    var ghost = isBrowser() ? createGhostElement() : null
+    var isInvalidEnvironemnt = !isBrowser()
 
     return function () {
+      if (isInvalidEnvironemnt) {
+        throw new Error('autosize-input must be used in a browser environment.')
+      }
       if (document.getElementById(GHOST_ELEMENT_ID) === null) {
         ghost = createGhostElement()
       }
